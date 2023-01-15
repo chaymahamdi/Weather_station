@@ -67,6 +67,7 @@ class LoginState extends State<Login> {
             image: AssetImage('assets/back.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
@@ -166,7 +167,7 @@ class LoginState extends State<Login> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.2,
                                 ),
-                                Row(
+                                /*Row(
                                   children: <Widget>[
                                     const Text("Don't have account?"),
                                     TextButton(
@@ -186,7 +187,7 @@ class LoginState extends State<Login> {
                                     )
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                ),
+                                ),*/
                               ],
                             ),
                           )

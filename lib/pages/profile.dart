@@ -3,11 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project_cert/Widgets/colors';
 import 'package:project_cert/pages/login.dart';
+import 'package:project_cert/pages/register.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../Network_front_back/api.dart';
 import '../Widgets/parametres_End_node.dart';
 import 'package:intl/intl.dart';
 import 'package:toggle_bar/toggle_bar.dart';
+
+import '../Widgets/widgets.dart';
 
 enum Menu { itemOne, itemTwo, itemThree, itemFour }
 
@@ -97,7 +100,17 @@ class _ProfileState extends State<Profile> {
                 Text(
                   (user["email"] == null) ? '' : user["email"],
                   style: TextStyle(color: Colors.grey, fontSize: 20),
-                )
+                ),
+                const SizedBox(height: 10),
+                button(
+                    val: 'Add User',
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Register()),
+                      );
+                    }),
               ],
             ),
           ),

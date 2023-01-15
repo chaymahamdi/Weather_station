@@ -52,19 +52,15 @@ class WelcomeState extends State<Welcome> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.12,
                                 ),
-                                button(
-                                    val: 'Register',
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Register()),
-                                      );
-                                    }),
+                                const Text(
+                                  "Welcome our Staff to our mobile application",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
                                 SizedBox(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.02,
+                                      MediaQuery.of(context).size.height * 0.12,
                                 ),
                                 button(
                                     val: 'Login',

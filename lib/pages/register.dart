@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:project_cert/pages/home.dart';
 import 'package:project_cert/pages/login.dart';
+import 'package:project_cert/pages/profile.dart';
 import '../Widgets/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_cert/Network_front_back/api.dart';
@@ -48,11 +49,12 @@ class RegisterState extends State<Register> {
     if (body['success']) {
       var data = body['data'];
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', data['token']);
+      /*localStorage.setString('token', data['token']);*/
       localStorage.setString('user', data['name']);
       localStorage.setString('email', data['email']);
       Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => Home()));
+          context, MaterialPageRoute(builder: (context) => const Profile()));
+      _showMsg("User added successfully");
     } else {
       _showMsg(body['message']);
     }
@@ -66,6 +68,7 @@ class RegisterState extends State<Register> {
             image: AssetImage('assets/back.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
         body: Stack(
           children: [
@@ -200,7 +203,7 @@ class RegisterState extends State<Register> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.01,
                                 ),
-                                Row(
+/*Row(
                                   children: <Widget>[
                                     const Text("You have an account with us"),
                                     TextButton(
@@ -222,7 +225,7 @@ class RegisterState extends State<Register> {
                                     )
                                   ],
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                ),
+                                ),*/
                               ],
                             ),
                           )

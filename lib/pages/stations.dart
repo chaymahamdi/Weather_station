@@ -89,20 +89,14 @@ class _StationsState extends State<Stations> {
     });
   }
 
-  bool isSwitched = false;
-  var textValue = 'Switch is OFF';
-  void toggleSwitch(bool value) {
-    if (isSwitched == false) {
-      setState(() {
-        isSwitched = true;
-      });
-      print('ON');
-    } else {
-      setState(() {
-        isSwitched = false;
-      });
-      print('OFF');
-    }
+  _updateFavorite(int id, bool state) async {
+    var data = {
+      'state': state,
+    };
+    var response = await CallApi().postTokenData(data, 'stations/$id');
+    setState(() {
+      _initData();
+    });
   }
 
   @override
@@ -216,7 +210,7 @@ class _StationsState extends State<Stations> {
                 const SizedBox(
                   width: 60,
                 ),
-                ON_OFF(station["state"] == 1),
+                ON_OFF(station["id"], station["state"] == 1),
                 const SizedBox(
                   width: 10,
                 ),
@@ -280,7 +274,7 @@ class _StationsState extends State<Stations> {
     );
   }
 
-  Widget ON_OFF(isSwitched) {
+  Widget ON_OFF(int id, bool isSwitched) {
     return Align(
       alignment: Alignment.topRight,
       child: Container(
@@ -293,7 +287,12 @@ class _StationsState extends State<Stations> {
               Transform.scale(
                   scale: 1,
                   child: Switch(
-                    onChanged: toggleSwitch,
+                    onChanged: (bool isSwitched) {
+                      setState(() {
+                        isSwitched = !isSwitched;
+                        _updateFavorite(id, !isSwitched);
+                      });
+                    },
                     value: isSwitched,
                     activeColor: Colors.blue,
                     activeTrackColor: Colors.lightBlue,

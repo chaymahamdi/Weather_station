@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/addFavorite', [App\Http\Controllers\UserController::class, 'addFavorite']);
     Route::get('/station/{station}', [App\Http\Controllers\StationController::class, 'show']);
     Route::get('/stations/{name}/search', [App\Http\Controllers\StationController::class, 'search']);
-    Route::patch('/stations/{station}', [App\Http\Controllers\StationController::class, 'update']);
+    Route::post('/stations/{station}', [App\Http\Controllers\StationController::class, 'update']);
     Route::delete('/stations/{station}', [App\Http\Controllers\StationController::class, 'destroy']);
 });
 
