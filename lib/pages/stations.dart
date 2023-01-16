@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:project_cert/Network_front_back/api.dart';
 import 'package:project_cert/pages/addStation.dart';
+import 'package:project_cert/pages/home.dart';
 import 'package:project_cert/pages/login.dart';
 import 'package:project_cert/pages/profile.dart';
 import 'package:project_cert/pages/station.dart';
@@ -152,13 +153,13 @@ class _StationsState extends State<Stations> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: 'Favorites',
+            label: 'Stations',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.location_on,
             ),
-            label: 'Stations',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
@@ -183,7 +184,7 @@ class _StationsState extends State<Stations> {
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Stations()),
+        MaterialPageRoute(builder: (context) => const Home()),
       );
     } else {
       Navigator.push(

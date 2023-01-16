@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
             child: FlutterMap(
               options: MapOptions(
                 center: LatLng(36.8917497, 10.1874518),
-                zoom: 15,
+                zoom: 12,
               ),
               nonRotatedChildren: [
                 AttributionWidget.defaultWidget(
@@ -152,13 +152,13 @@ class _HomeState extends State<Home> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: 'Favorites',
+            label: 'Stations',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.location_on,
             ),
-            label: 'Stations',
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
@@ -183,7 +183,7 @@ class _HomeState extends State<Home> {
     } else if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const Stations()),
+        MaterialPageRoute(builder: (context) => const Home()),
       );
     } else {
       Navigator.push(

@@ -72,6 +72,7 @@ class AddStationState extends State<AddStation> {
             image: AssetImage('assets/back.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.purple[900],
           actions: <Widget>[
