@@ -6,6 +6,7 @@ import 'package:project_cert/pages/profile.dart';
 import 'package:project_cert/pages/register.dart';
 import 'package:project_cert/pages/station.dart';
 import 'package:project_cert/pages/stations.dart';
+import 'package:project_cert/pages/weatherData.dart';
 import 'package:project_cert/pages/welcome.dart';
 
 void main() => runApp(MaterialApp(
@@ -18,5 +19,6 @@ void main() => runApp(MaterialApp(
         '/register': (context) => Register(),
         '/welcome': (context) => Welcome(),
         '/profile': (context) => Profile(),
+        '/weatherData': (context) => WeatherData(),
       },
     ));

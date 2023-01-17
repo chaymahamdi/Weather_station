@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project_cert/Widgets/colors';
+import 'package:project_cert/Widgets/widgets.dart';
 import 'package:project_cert/pages/login.dart';
+import 'package:project_cert/pages/weatherData.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../Network_front_back/api.dart';
 import '../Widgets/parametres_End_node.dart';
@@ -20,13 +22,13 @@ class Station extends StatefulWidget {
 
 class _StationState extends State<Station> {
   String _selectedMenu = '';
-  double temperature = -1;
+
   double humidity = -1;
   double pressure = -1;
   int precipitations = -1;
   int luminosity = -1;
   int counter = 0;
-  var temperatureMonthly = [];
+  var temperature = [];
   var timetemperature = [];
   List<String> labels = ["Daily", "Weekly", "Monthly"];
   String currentdate = DateFormat.yMMMEd().format(DateTime.now());
@@ -38,10 +40,9 @@ class _StationState extends State<Station> {
   List<ChartData> chartDataWeekly = [];
   String valeur = "data";
 
-  var dataMonthly = {
-    'start':
-        DateTime.now().toUtc().millisecondsSinceEpoch * 1000000 - 9 * 24 * 3600,
-    'stop': DateTime.now().toUtc().millisecondsSinceEpoch * 1000000,
+  var datatime = {
+    'start': 1670852581858072064,
+    'stop': 1673442526905303040,
   };
   void initState() {
     _initTemperature();
@@ -49,13 +50,41 @@ class _StationState extends State<Station> {
     _initPressure();
     _initHumidity();
     _initLuminosity();
-    _initTemperatureMonthly();
   }
 
-  _initTemperature() async {
+  /*_initTemperature() async {
     var response_1 = await CallApi().postData(data, "influxdb/get/temperature");
     setState(() {
       temperature = List.from(json.decode(response_1.body)["data"].values)[0];
+    });
+  }*/
+  _initTemperature() async {
+    await CallApi()
+        .postData(datatime, "influxdb/get/temperature")
+        .then((response) {
+      setState(() {
+        var data = Map.from(json.decode(response.body)["data"]);
+        if (data.isEmpty != true) {
+          temperature = List.from(data.values);
+          timetemperature = List.from(data.keys);
+        }
+
+        for (var i = 0, j = 0;
+            i < timetemperature.length / 10;
+            j < temperature.length, i++, j++) {
+          chartDataMonthly.add(ChartData(timetemperature[i], temperature[j]));
+        }
+        for (var i = 0, j = 0;
+            i < timetemperature.length / 14;
+            j < temperature.length / 5, i++, j++) {
+          chartDataDaily.add(ChartData(timetemperature[i], temperature[j]));
+        }
+        for (var i = 0, j = 0;
+            i < timetemperature.length / 12;
+            j < temperature.length / 10, i++, j++) {
+          chartDataWeekly.add(ChartData(timetemperature[i], temperature[j]));
+        }
+      });
     });
   }
 
@@ -109,7 +138,7 @@ class _StationState extends State<Station> {
     });
   }
 
-  _initTemperatureMonthly() async {
+  /*_initTemperatureMonthly() async {
     var response_6 =
         await CallApi().postData(dataMonthly, "influxdb/get/temperature");
     setState(() {
@@ -135,7 +164,7 @@ class _StationState extends State<Station> {
             .add(ChartData(timetemperature[i], temperatureMonthly[j]));
       }
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -169,13 +198,44 @@ class _StationState extends State<Station> {
         ),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20),
-              alignment: Alignment.topLeft,
-              child: Text(
-                '${widget.name}',
-                style: TextStyle(fontSize: 20, height: 2),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    children: [
+                      Text(
+                        '${widget.name}',
+                        style: TextStyle(fontSize: 20, height: 2),
+                      ),
+                    ],
+                  ),
+                ),
+                Align(
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.indigo.shade700, //<-- SEE HERE
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WeatherData()),
+                      );
+                    },
+                    child: Container(
+                      child: const Text(
+                        'Show Data',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -205,7 +265,9 @@ class _StationState extends State<Station> {
                 RichText(
                     text: TextSpan(children: [
                   TextSpan(
-                      text: (temperature == -1) ? '' : "$temperature C°",
+                      text: (temperature.isEmpty == true)
+                          ? ''
+                          : temperature[0].toString() + "C°",
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 40,
