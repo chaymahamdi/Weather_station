@@ -92,6 +92,11 @@ class _WeatherDataState extends State<WeatherData> {
     });
   }
 
+  _export() async {
+    var res = await CallApi().getPublicData('export');
+    _showMsg("succes");
+  }
+
   _initLuminosity() async {
     await CallApi()
         .postData(datatime, "influxdb/get/luminosity")
@@ -101,8 +106,6 @@ class _WeatherDataState extends State<WeatherData> {
         if (data.isEmpty != true) {
           luminosity = List.from(data.values);
         }
-        /*print("luminosity");
-        print(luminosity);*/
       });
     });
   }
@@ -116,8 +119,6 @@ class _WeatherDataState extends State<WeatherData> {
         if (data.isEmpty != true) {
           pressure = List.from(data.values);
         }
-        /*print("pressure");
-        print(pressure);*/
       });
     });
   }
@@ -179,7 +180,27 @@ class _WeatherDataState extends State<WeatherData> {
               image: AssetImage('assets/back.png'), fit: BoxFit.cover),
         ),
         child: Column(
-          children: data(),
+          children: [
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                backgroundColor: Colors.indigo.shade700, //<-- SEE HERE
+              ),
+              onPressed: () {
+                _export();
+              },
+              child: Container(
+                child: const Text(
+                  'Export Data',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Column(
+              children: data(),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -347,7 +368,7 @@ class _WeatherDataState extends State<WeatherData> {
                 thickness: 2,
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.18,
+                width: MediaQuery.of(context).size.width * 0.15,
                 child: Column(
                   children: [
                     const Text(

@@ -32,8 +32,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user/addFavorite', [App\Http\Controllers\UserController::class, 'addFavorite']);
     Route::get('/station/{station}', [App\Http\Controllers\StationController::class, 'show']);
     Route::get('/stations/{name}/search', [App\Http\Controllers\StationController::class, 'search']);
-    Route::post('/stations/{station}', [App\Http\Controllers\StationController::class, 'update']);
+    Route::patch('/stations/{station}', [App\Http\Controllers\StationController::class, 'update']);
     Route::delete('/stations/{station}', [App\Http\Controllers\StationController::class, 'destroy']);
 });
 
 Route::post('influxdb/get/{mesurment}', [App\Http\Controllers\InfluxDBController::class, 'index']);
+Route::post('influxdb', [App\Http\Controllers\InfluxDBController::class, 'store']);
+Route::get('/export',[App\Http\Controllers\InfluxDBController::class,'exportInfluxdb']);

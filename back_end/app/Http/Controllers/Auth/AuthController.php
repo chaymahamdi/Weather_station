@@ -14,7 +14,7 @@ class AuthController extends BaseController
     {
         $fields=$request->validate(
             ['name'=>'required|string',
-            'email'=>'required|email|unique:users',
+            'email'=>'required|string|unique:users',
             'password'=>'required|string|confirmed',
         ]);
         $user=User::create([
@@ -24,12 +24,12 @@ class AuthController extends BaseController
             'is_admin' =>  0,
 
         ]);
-        /*$token = $user->createToken('auth_token')->plainTextToken;*/
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         $result=[
             'name'=>$user->name,
             'email'=>$user->email,
-            /*'token'=>$token,*/
+            'token'=>$token,
             'is_admin' =>  $user->is_admin
         ];
 
